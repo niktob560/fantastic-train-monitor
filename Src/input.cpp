@@ -21,5 +21,4 @@ namespace input
             cout << "Got input :" << s << endl;
         }
     }
-
 } //namespace input
