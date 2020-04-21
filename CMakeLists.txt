@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(fantastic-train-monitor)
 
-include_directories(Inc fantastic-train/Includes fantastic-train fantastic-train/waypointmanager fantastic-train/waypointmanager/Inc)
+include_directories(Inc fantastic-train/Includes fantastic-train fantastic-train/waypointmanager fantastic-train/waypointmanager/Inc mcuterminaltranslator/Inc)
 
 find_library(PTHREAD_LIBRARY pthread)
 find_library(GL_LIBRARY GL)
@@ -13,11 +13,13 @@ find_library(PNG_LIBRARY png)
 find_library(FTGL_LIBRARY ftgl)
 
 LINK_DIRECTORIES(fantastic-train/Build/)
-
+LINK_DIRECTORIES(mcuterminaltranslator/Bin/)
 
 add_library(libfantastic-train SHARED IMPORTED)
+add_library(libtranslator SHARED IMPORTED)
 
 add_dependencies(libfantastic-train ${PROJECT_NAME}/fantastic-train/Build/libfantastic-train.so)
+add_dependencies(libtranslator ${PROJECT_NAME}/mcuterminaltranslator/Bin/libtranslator.so)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
@@ -67,3 +69,4 @@ add_executable(main Src/main.cpp Src/routines.cpp Src/input.cpp)
 
 target_link_libraries(main ${PTHREAD_LIBRARY} ${GL_LIBRARY} ${GLU_LIBRARY} ${GLUT_LIBRARY} ${X11_LIBRARY} ${PNG_LIBRARY} ${FTGL_LIBRARY})
 target_link_libraries(main libfantastic-train.so)
+target_link_libraries(main libtranslator.so)
